@@ -1,10 +1,11 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
-const ZoomImage = ({ src, fadeDuration, top, left, isZoomed, onLoad, onDragStart, onDragEnd, onClose, onFadeOut }) => {
+const ZoomImage = ({ src, fadeDuration, top, left, imgAttributes, isZoomed, onLoad, onDragStart, onDragEnd, onClose, onFadeOut }) => {
   return (
     <Fragment>
       <img
+        {...imgAttributes}
         className={`iiz__zoom-img ${isZoomed ? 'iiz__zoom-img--visible' : ''}`}
         style={{
           top: top,
@@ -41,6 +42,7 @@ ZoomImage.propTypes = {
   fadeDuration: PropTypes.number,
   top: PropTypes.number,
   left: PropTypes.number,
+  imgAttributes: PropTypes.object,
   isZoomed: PropTypes.bool,
   onLoad: PropTypes.func,
   onDragStart: PropTypes.func,

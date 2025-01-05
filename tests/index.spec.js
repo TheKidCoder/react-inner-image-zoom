@@ -166,6 +166,43 @@ describe('InnerImageZoom', function () {
           done();
         };
       });
+
+      it('renders the zoomed image with custom attributes if imgAttributes is set', (done) => {
+        innerImageZoom({ imgAttributes: { 'data-key': 'value' } });
+        const figure = findRenderedDOMComponentWithTag(component, 'figure');
+        Simulate.mouseEnter(figure);
+        const zoomImg = findRenderedDOMComponentWithClass(component, 'iiz__zoom-img');
+        
+        zoomImg.onload = () => {
+          expect(zoomImg.getAttribute('data-key')).toEqual('value');
+          done();
+        };
+      });
+
+      it('combines zoom image classes if imgAttributes contains className', (done) => {
+        innerImageZoom({ imgAttributes: { className: 'custom-class' } });
+        const figure = findRenderedDOMComponentWithTag(component, 'figure');
+        Simulate.mouseEnter(figure);
+        const zoomImg = findRenderedDOMComponentWithClass(component, 'iiz__zoom-img');
+        
+        zoomImg.onload = () => {
+          expect(zoomImg.classList.contains('iiz__zoom-img') && 
+                 zoomImg.classList.contains('custom-class')).toBe(true);
+          done();
+        };
+      });
+
+      it('ignores style properties in imgAttributes prop for zoom image', (done) => {
+        innerImageZoom({ imgAttributes: { style: { background: 'pink' } } });
+        const figure = findRenderedDOMComponentWithTag(component, 'figure');
+        Simulate.mouseEnter(figure);
+        const zoomImg = findRenderedDOMComponentWithClass(component, 'iiz__zoom-img');
+        
+        zoomImg.onload = () => {
+          expect(zoomImg.style.background).toBeFalsy();
+          done();
+        };
+      });
     });
 
     describe('show', () => {
